@@ -22,21 +22,21 @@ let incBlue = false;
 let count = 0;
 let count2 = 0;
 let hasChanged = true;
+let offset = 0;
 
 if(canvas.getContext) {
-    started = false;
+    started = true;
     ctx = canvas.getContext('2d');
     id = setInterval(animate);
     ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 } 
 
 document.onmousemove = function(event) {
 	pointerX = event.pageX;
 	pointerY = event.pageY;
-  if(started) {
-    // array.push(new Point(pointerX-10, pointerY-10, 2, 2));
-  }
 }
 
 function catmullRom(p0, p1, p2, p3, t) {
@@ -113,11 +113,9 @@ function animate() {
     hasChanged = true;
     count = 0;
   }
-
-  // console.log(hasChanged);
-
+  
   if(array.length == 0 || hasChanged) {
-    array.push(new Point(pointerX-10, pointerY-10, 2, 2));
+    array.push(new Point(pointerX-offset, pointerY-offset, 2, 2));
   }
 
   let color = r + ',' + g + ',' + b;
@@ -209,11 +207,3 @@ class Point {
     return this.x + ',' + this.y;
   }
 }
-
-canvas.addEventListener("click", () => {
-  if(!started) {
-      started = true;
-  } else {
-      started = false;
-  }
-})
